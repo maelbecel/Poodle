@@ -57,6 +57,7 @@ export default {
     this.getTopic()
   },
   methods: {
+    // Getting the comments from the database and displaying them on the page.
     async getTopic () {
       console.log('Enter in getTopic')
       const url = encodeURIComponent(this.$route.params.url)
@@ -71,6 +72,9 @@ export default {
       this.topicId = dataid[0].id
       console.log('Now on topic ' + this.topicId)
     },
+    // This function is called when the user clicks on the "Send" button. It sends
+    // the comment to the database and then reloads the page to display the new
+    // comment.
     async createComment () {
       if (this.topicId === undefined) {
         console.log('Undefined topic id')
@@ -96,6 +100,7 @@ export default {
         console.log('response is' + response.status)
       }
     },
+    // This function is used to get the favicon of the website.
     getIcon (url) {
       const array = url.split('/')
       if (url.includes('https://')) {
@@ -106,6 +111,8 @@ export default {
         return 'https://' + array[0] + '/favicon.ico'
       }
     },
+    // This function is used to check if the topic already exists in the database.
+    // If it does not exist, it is created.
     async newTopic () {
       const response = await fetch('/api/istopic', {
         method: 'POST',
@@ -130,6 +137,8 @@ export default {
         })
       }
     },
+    // This function is used to check if the user is logged in. If he is, it
+    // returns true, otherwise it returns false.
     isLoggedIn () {
       if (Cookies.get('id') === undefined || (Cookies.get('token') === undefined)) {
         console.log('User is not logged in')
@@ -139,9 +148,14 @@ export default {
         return true
       }
     },
+    // This function is used to redirect the user to the account page of the user
+    // who posted the comment.
     goToAccount (id) {
       this.$router.push({ name: 'account', params: { id: id } })
     },
+    // This function is used to like a comment. If the user is not logged in, he
+    // is redirected to the login page. If he is logged in, the function sends a
+    // request to the server to like the comment.
     async doLike (id) {
       if (Cookies.get('token') === undefined) {
         this.$router.push({ name: 'login' })

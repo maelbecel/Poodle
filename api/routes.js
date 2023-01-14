@@ -1,3 +1,4 @@
+/* Importing the modules that we need to use. */
 const express = require('express')
 const app = express()
 const crypto = require('crypto');
@@ -6,10 +7,18 @@ const authTokens = {};
 var jwt = require('jsonwebtoken');
 
 
+/* Creating a new user, logging in, getting the user, getting the topic, getting
+the topic id, creating a new topic, checking if the topic already exists,
+creating a new comment, getting the comment, updating the value of a comment by
+adding 1, and updating the value of a comment by sub 1. */
 module.exports = function(app, con, bcrypt) {
 
-    const error = '{{"msg": "Bad Request", "code": 400}}';
-
+    /**
+     * It checks if the email address is already in use
+     * @param res - The response object from the HTTP request
+     * @param mail - The email address to check
+     * @param callback - The function to call when the query is done.
+     */
     function check_account_mail (res, mail, callback) {
         con.execute('SELECT * FROM users WHERE email = ?', [mail], function(err, results, fields) {
             if (results.length > 0) {
@@ -20,6 +29,15 @@ module.exports = function(app, con, bcrypt) {
         })
     }
 
+    /**
+     * It takes the email, password, last name and first name of a user and
+     * inserts them into the database
+     * @param res - the response object
+     * @param mail - the email of the user
+     * @param pwd - the password that the user entered
+     * @param mname - last name
+     * @param fname - first name
+     */
     function register (res, mail, pwd, mname, fname) {
         con.execute('INSERT INTO users (email, password, last_name, first_name) VALUES (?, ?, ?, ?)', [mail, pwd, mname, fname], function(err, results, fields) {
             const token = jwt.sign({email:mail, password:pwd}, 'SECRET');
@@ -107,6 +125,7 @@ module.exports = function(app, con, bcrypt) {
         })
     })
 
+    /* Getting the topic id from the url. */
     app.get('/api/topicid/:url', (req, res)=>{
         const url = encodeURIComponent(req.params.url)
         con.query('SELECT id FROM topics WHERE url = "' + url + '"', function (err, result, fields) {
@@ -125,6 +144,7 @@ module.exports = function(app, con, bcrypt) {
         con.query("INSERT INTO topics (url) VALUES (" + '"' + encodeURIComponent(req.body.url) + '")', function (err, result, fields) {})
     })
 
+    /* Checking if the topic already exists. */
     app.post('/api/istopic', (req,res) => {
         if (req.body.url === undefined) {
             res.status(400).json({"msg": "Missing fields"});

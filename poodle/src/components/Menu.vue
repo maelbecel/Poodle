@@ -36,6 +36,7 @@ import Cookies from 'js-cookie'
 export default {
   name: 'HelloWorld',
   methods: {
+    // It's removing the token and id from the cookies.
     logout () {
       Cookies.remove('token')
       Cookies.remove('id')

@@ -50,6 +50,8 @@ export default {
     this.isLog()
   },
   methods: {
+    // Sending the data to the server and if the server returns a token, it saves
+    // it in the cookies.
     async logIn () {
       console.log(this.data.email)
       console.log(this.data.password)
@@ -70,6 +72,8 @@ export default {
         this.$router.push({ name: 'index' })
       }
     },
+    // It checks if the user is logged in. If it is, it redirects to the account
+    // page.
     isLog () {
       console.log('Checking if user is logged')
       if (!(Cookies.get('token') === undefined || Cookies.get('id') === undefined)) {

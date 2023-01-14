@@ -1,7 +1,9 @@
+/* This is importing the express, router and jwt modules. */
 const express = require('express');
 const router = express.Router();
 var jwt = require('jsonwebtoken');
 
+/* This is a middleware function that is used to verify the token. */
 module.exports = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (authHeader) {

@@ -38,31 +38,38 @@ import Cookies from 'js-cookie'
 
 export default {
   name: 'AccountView',
+  // Creating an empty object for the user and an empty array for the comments.
   data () {
     return {
       user: {},
       comments: []
     }
   },
+  // Importing the Navbar component.
   components: {
     Navbar
   },
+  // Calling the getUser and getComments methods when the component is created.
   created () {
     this.getUser()
     this.getComments()
   },
+  // The methods of the component.
   methods: {
+    // Getting the user from the database.
     async getUser () {
       const response = await fetch('/api/user/' + this.$route.params.id)
       const data = await response.json()
       this.user = data
     },
+    // Getting the comments from the database.
     async getComments () {
       const response = await fetch('/api/comments/' + this.$route.params.id)
       const data = await response.json()
       console.log(data)
       this.comments = data
     },
+    // Getting the favicon of the website.
     getIcon (url) {
       const array = url.split('/')
       if (url.includes('https://')) {
@@ -73,9 +80,15 @@ export default {
         return 'https://' + array[0] + '/favicon.ico'
       }
     },
+    // A method that is called when the user clicks on the title of a comment. It
+    // redirects the user to the page of the note.
     goToTopic (url) {
       this.$router.push({ name: 'notes', params: { url: decodeURIComponent(url) } })
     },
+    // A method that is called when the user clicks on the like button. It checks
+    // if the user is logged in. If not, it redirects the user to the login page.
+    // If the user is logged in, it sends a request to the server to like the
+    // comment.
     async doLike (id) {
       if (Cookies.get('token') === undefined) {
         this.$router.push({ name: 'login' })
@@ -95,6 +108,8 @@ export default {
         location.reload()
       }
     },
+    // A method that is called when the user clicks on the title of a comment. It
+    // redirects the user to the page of the note.
     goToNote (url) {
       this.$router.push({ name: 'notes', params: { url: decodeURIComponent(url) } })
     }

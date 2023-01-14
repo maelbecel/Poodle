@@ -59,6 +59,7 @@ export default {
     Navbar
   },
   methods: {
+    // Sending a POST request to the server with the data from the form.
     async signIn () {
       if (this.data.password !== this.data.passwordConfirm) {
         console.log('passwords are not the same')

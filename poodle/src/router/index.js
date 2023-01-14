@@ -1,3 +1,4 @@
+/* Importing the router and the views. */
 import { createRouter, createWebHistory } from 'vue-router'
 import IndexView from '../views/IndexView.vue'
 import NotesView from '../views/NotesView.vue'
@@ -7,6 +8,7 @@ import LogInView from '../views/LogInView.vue'
 import SignInView from '../views/SignInView.vue'
 import ErrorView from '../views/ErrorView.vue'
 
+/* Defining the routes for the router. */
 const routes = [
   {
     path: '/',
@@ -45,6 +47,7 @@ const routes = [
   }
 ]
 
+/* Creating a router with the routes defined above. */
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
