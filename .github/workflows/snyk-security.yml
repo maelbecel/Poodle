@@ -25,11 +25,8 @@ jobs:
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-
-      - name: Run Snyk test
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        run: snyk test
+        with:
+          command : test --detection-depth=3
 
       - name: Generate Snyk Report
         env:
