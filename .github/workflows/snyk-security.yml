@@ -17,16 +17,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: TEST
-        run: ls /github/workspace
-      
-      - uses: actions/checkout@master
       - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
+        uses: snyk/actions@master
+        with:
+          args: monitor --all-projects
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command : test --detection-depth=3
 
       - name: Generate Snyk Report
         env:
